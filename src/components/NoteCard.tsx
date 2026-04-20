@@ -41,23 +41,23 @@ export function NoteCard({ note, onUpdate, onDelete }: NoteCardProps) {
         <h3 className="text-base font-semibold text-gray-900 dark:text-white line-clamp-1 flex-1">
           {note.title}
         </h3>
-        <div className="flex items-center opacity-60 group-hover:opacity-100 transition-opacity">
+        <div className="flex items-center opacity-80 group-hover:opacity-100 transition-opacity gap-1.5">
           <button
             onClick={() => setIsEditing(true)}
-            className="p-1.5 text-gray-500 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-md transition-colors"
+            className="p-1.5 border border-gray-200 dark:border-gray-600 text-gray-500 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:border-blue-200 dark:hover:border-blue-800 rounded-md transition-colors"
             title="Edit Note"
             aria-label="Edit Note"
           >
-            <Pencil className="w-4 h-4" />
+            <Pencil className="w-3.5 h-3.5" />
           </button>
           <button
             onClick={handleDelete}
             disabled={isDeleting}
-            className="p-1.5 text-gray-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 rounded-md transition-colors disabled:opacity-50"
+            className="p-1.5 border border-gray-200 dark:border-gray-600 text-gray-500 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/30 hover:border-red-200 dark:hover:border-red-800 rounded-md transition-colors disabled:opacity-50"
             title="Delete Note"
             aria-label="Delete Note"
           >
-            <Trash2 className="w-4 h-4" />
+            <Trash2 className="w-3.5 h-3.5" />
           </button>
         </div>
       </div>
@@ -69,7 +69,7 @@ export function NoteCard({ note, onUpdate, onDelete }: NoteCardProps) {
       {note.tags && note.tags.length > 0 && (
         <div className="flex flex-wrap gap-1 mb-3">
           {note.tags.map(tag => (
-            <span key={tag} className="px-2 py-0.5 bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 text-[10px] font-medium rounded-full">
+            <span key={tag} className="px-2 py-0.5 bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 text-[10px] font-medium rounded-md">
               {tag}
             </span>
           ))}

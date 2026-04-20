@@ -88,10 +88,10 @@ export default function Home() {
             <div className="flex items-center gap-2 sm:hidden">
               <button
                 onClick={toggleMobileSearch}
-                className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-gray-600 dark:text-gray-300"
+                className="p-2 rounded-md border border-gray-300 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-gray-600 dark:text-gray-300 flex items-center justify-center"
                 aria-label="Toggle search"
               >
-                <Search className="w-5 h-5" />
+                <Search className="w-4 h-4" />
               </button>
               <ThemeToggle />
             </div>
