@@ -40,7 +40,7 @@ export function NoteCard({ note, onUpdate, onDelete }: NoteCardProps) {
         <h3 className="text-base font-semibold text-gray-900 dark:text-white line-clamp-1 flex-1">
           {note.title}
         </h3>
-        <div className="flex items-center opacity-0 group-hover:opacity-100 transition-opacity">
+        <div className="flex items-center opacity-60 group-hover:opacity-100 transition-opacity">
           <button
             onClick={() => setIsEditing(true)}
             className="p-1.5 text-gray-500 hover:text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/30 rounded-md transition-colors"

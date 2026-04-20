@@ -8,7 +8,7 @@ export const notesApi = {
    * Fetches all notes from the backend.
    */
   async fetchNotes(): Promise<Note[]> {
-    await delay(300); 
+    await delay(50); 
     return [];
   },
 
@@ -16,7 +16,7 @@ export const notesApi = {
    * Creates a new note on the backend.
    */
   async createNote(title: string, content: string): Promise<Note> {
-    await delay(300); 
+    await delay(50); 
     
     const newNote: Note = {
       id: crypto.randomUUID(),
@@ -32,7 +32,7 @@ export const notesApi = {
    * Updates an existing note on the backend.
    */
   async updateNote(id: string, title: string, content: string): Promise<Note> {
-    await delay(300);
+    await delay(50);
     
     return {
       id,
@@ -46,6 +46,6 @@ export const notesApi = {
    * Deletes a note from the backend.
    */
   async deleteNote(_id: string): Promise<void> {
-    await delay(300);
+    await delay(50);
   }
 };
