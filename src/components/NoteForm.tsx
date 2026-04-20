@@ -3,25 +3,32 @@ import { Note } from "@/types/note";
 
 interface NoteFormProps {
   initialNote?: Note;
-  onSubmit: (title: string, content: string, id?: string) => Promise<void>;
+  onSubmit: (title: string, content: string, tags?: string[], id?: string) => Promise<void>;
   onCancel: () => void;
 }
 
 export function NoteForm({ initialNote, onSubmit, onCancel }: NoteFormProps) {
   const [newTitle, setNewTitle] = useState(initialNote?.title || "");
   const [newContent, setNewContent] = useState(initialNote?.content || "");
+  const [newTags, setNewTags] = useState(initialNote?.tags?.join(", ") || "");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!newTitle.trim() || !newContent.trim() || isSubmitting) return;
 
+    const tagsArray = newTags
+      .split(",")
+      .map(t => t.trim())
+      .filter(t => t.length > 0);
+
     try {
       setIsSubmitting(true);
-      await onSubmit(newTitle, newContent, initialNote?.id);
+      await onSubmit(newTitle, newContent, tagsArray, initialNote?.id);
       if (!initialNote) {
         setNewTitle("");
         setNewContent("");
+        setNewTags("");
       }
     } finally {
       setIsSubmitting(false);
@@ -44,12 +51,20 @@ export function NoteForm({ initialNote, onSubmit, onCancel }: NoteFormProps) {
           autoFocus
         />
         <textarea
-          placeholder="Write your note here..."
+          placeholder="Write your note here (Markdown supported)..."
           value={newContent}
           onChange={(e) => setNewContent(e.target.value)}
           rows={3}
           disabled={isSubmitting}
-          className="w-full px-3 py-1.5 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-transparent text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none disabled:opacity-50"
+          className="w-full px-3 py-1.5 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-transparent text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none disabled:opacity-50 font-mono"
+        />
+        <input
+          type="text"
+          placeholder="Tags (comma separated)"
+          value={newTags}
+          onChange={(e) => setNewTags(e.target.value)}
+          className="w-full px-3 py-1.5 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-transparent text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50"
+          disabled={isSubmitting}
         />
         <div className="flex justify-end gap-2 mt-1">
           <button

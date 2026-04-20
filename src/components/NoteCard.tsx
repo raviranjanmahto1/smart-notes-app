@@ -2,10 +2,11 @@ import { useState } from "react";
 import { Note } from "@/types/note";
 import { Pencil, Trash2 } from "lucide-react";
 import { NoteForm } from "./NoteForm";
+import ReactMarkdown from "react-markdown";
 
 interface NoteCardProps {
   note: Note;
-  onUpdate: (id: string, title: string, content: string) => Promise<void>;
+  onUpdate: (id: string, title: string, content: string, tags?: string[]) => Promise<void>;
   onDelete: (id: string) => Promise<void>;
 }
 
@@ -13,8 +14,8 @@ export function NoteCard({ note, onUpdate, onDelete }: NoteCardProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
 
-  const handleUpdate = async (title: string, content: string) => {
-    await onUpdate(note.id, title, content);
+  const handleUpdate = async (title: string, content: string, tags?: string[]) => {
+    await onUpdate(note.id, title, content, tags);
     setIsEditing(false);
   };
 
@@ -61,12 +62,22 @@ export function NoteCard({ note, onUpdate, onDelete }: NoteCardProps) {
         </div>
       </div>
       
-      <p className="text-sm text-gray-600 dark:text-gray-300 flex-1 whitespace-pre-wrap break-words line-clamp-4 mb-3">
-        {note.content}
-      </p>
+      <div className="text-sm text-gray-600 dark:text-gray-300 flex-1 whitespace-pre-wrap break-words line-clamp-4 mb-3 prose prose-sm dark:prose-invert">
+        <ReactMarkdown>{note.content}</ReactMarkdown>
+      </div>
       
-      <div className="pt-3 border-t border-gray-100 dark:border-gray-700 text-[11px] text-gray-400 dark:text-gray-500 text-right">
-        {note.date}
+      {note.tags && note.tags.length > 0 && (
+        <div className="flex flex-wrap gap-1 mb-3">
+          {note.tags.map(tag => (
+            <span key={tag} className="px-2 py-0.5 bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 text-[10px] font-medium rounded-full">
+              {tag}
+            </span>
+          ))}
+        </div>
+      )}
+      
+      <div className="pt-3 border-t border-gray-100 dark:border-gray-700 flex justify-end items-center text-[11px] text-gray-400 dark:text-gray-500">
+        <span>{note.date}</span>
       </div>
     </div>
   );
