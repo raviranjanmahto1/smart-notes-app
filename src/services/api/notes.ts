@@ -6,20 +6,17 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 export const notesApi = {
   /**
    * Fetches all notes from the backend.
-   * Currently simulates network delay and returns an empty array to be populated by local state.
    */
   async fetchNotes(): Promise<Note[]> {
-    await delay(500); // Simulate network latency
-    // In the future, this will be: return fetch('/api/notes').then(res => res.json());
+    await delay(300); 
     return [];
   },
 
   /**
    * Creates a new note on the backend.
-   * Currently simulates network delay and returns the created note.
    */
   async createNote(title: string, content: string): Promise<Note> {
-    await delay(500); // Simulate network latency
+    await delay(300); 
     
     const newNote: Note = {
       id: crypto.randomUUID(),
@@ -28,9 +25,27 @@ export const notesApi = {
       date: new Date().toLocaleDateString(),
     };
     
-    // In the future, this will be: 
-    // return fetch('/api/notes', { method: 'POST', body: JSON.stringify({ title, content }) }).then(res => res.json());
-    
     return newNote;
+  },
+
+  /**
+   * Updates an existing note on the backend.
+   */
+  async updateNote(id: string, title: string, content: string): Promise<Note> {
+    await delay(300);
+    
+    return {
+      id,
+      title,
+      content,
+      date: new Date().toLocaleDateString(), // update date
+    };
+  },
+
+  /**
+   * Deletes a note from the backend.
+   */
+  async deleteNote(_id: string): Promise<void> {
+    await delay(300);
   }
 };
