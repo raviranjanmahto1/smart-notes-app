@@ -8,12 +8,16 @@ import { NoteCard } from "@/components/NoteCard";
 import { EmptyState } from "@/components/EmptyState";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { toast } from "sonner";
+import { Search } from "lucide-react";
+import { useRef } from "react";
 
 export default function Home() {
   const [notes, setNotes] = useState<Note[]>([]);
   const [isCreating, setIsCreating] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState("");
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     // Initial fetch of notes
@@ -65,23 +69,46 @@ export default function Home() {
     );
   });
 
+  const toggleMobileSearch = () => {
+    setIsSearchOpen(!isSearchOpen);
+    if (!isSearchOpen) {
+      setTimeout(() => {
+        searchInputRef.current?.focus();
+      }, 0);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 font-sans transition-colors duration-200">
       <header className="bg-white dark:bg-gray-800 shadow-sm border-b border-gray-200 dark:border-gray-700 sticky top-0 z-10 transition-colors duration-200">
         <div className="max-w-5xl mx-auto px-4 py-3 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <h1 className="text-xl font-bold text-gray-900 dark:text-white tracking-tight whitespace-nowrap">Smart Notes</h1>
+          <div className="flex justify-between items-center w-full sm:w-auto gap-4">
+            <h1 className="text-xl font-bold text-gray-900 dark:text-white tracking-tight whitespace-nowrap">Smart Notes</h1>
+            
+            <div className="flex items-center gap-2 sm:hidden">
+              <button
+                onClick={toggleMobileSearch}
+                className="p-2 rounded-md hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-gray-600 dark:text-gray-300"
+                aria-label="Toggle search"
+              >
+                <Search className="w-5 h-5" />
+              </button>
+              <ThemeToggle />
+            </div>
+          </div>
           
-          <div className="flex-1 max-w-md w-full">
+          <div className={`flex-1 max-w-md w-full ${isSearchOpen ? 'block' : 'hidden'} sm:block`}>
             <input
+              ref={searchInputRef}
               type="text"
               placeholder="Search notes or tags..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full px-4 py-1.5 text-sm border border-gray-300 dark:border-gray-600 rounded-full bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow"
+              className="w-full px-4 py-1.5 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 transition-shadow"
             />
           </div>
 
-          <div className="flex items-center gap-3 whitespace-nowrap">
+          <div className="hidden sm:flex items-center gap-3 whitespace-nowrap">
             <ThemeToggle />
             <button 
               onClick={() => setIsCreating(!isCreating)}
@@ -92,6 +119,15 @@ export default function Home() {
           </div>
         </div>
       </header>
+
+      {/* Floating Add Note Button for Mobile */}
+      <button
+        onClick={() => setIsCreating(!isCreating)}
+        className="fixed bottom-6 right-6 sm:hidden bg-blue-600 hover:bg-blue-700 text-white p-4 rounded-full shadow-lg font-medium transition-colors z-50"
+        aria-label="Create New Note"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+      </button>
 
       <main className="max-w-5xl mx-auto px-4 py-6">
         {isCreating && (
