@@ -10,6 +10,7 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import { toast } from "sonner";
 import { Search } from "lucide-react";
 import { useRef } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function Home() {
   const [notes, setNotes] = useState<Note[]>([]);
@@ -130,14 +131,22 @@ export default function Home() {
       </button>
 
       <main className="max-w-5xl mx-auto px-4 py-6">
-        {isCreating && (
-          <div className="mb-6">
-            <NoteForm 
-              onSubmit={handleCreateNote} 
-              onCancel={() => setIsCreating(false)} 
-            />
-          </div>
-        )}
+        <AnimatePresence mode="popLayout">
+          {isCreating && (
+            <motion.div
+              initial={{ opacity: 0, y: -20, height: 0 }}
+              animate={{ opacity: 1, y: 0, height: "auto" }}
+              exit={{ opacity: 0, y: -20, height: 0 }}
+              transition={{ duration: 0.2 }}
+              className="mb-6 overflow-hidden"
+            >
+              <NoteForm 
+                onSubmit={handleCreateNote} 
+                onCancel={() => setIsCreating(false)} 
+              />
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {isLoading ? (
           <div className="flex justify-center py-12">
@@ -150,16 +159,29 @@ export default function Home() {
             No notes found matching &quot;{searchQuery}&quot;
           </div>
         ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            {filteredNotes.map((note) => (
-              <NoteCard 
-                key={note.id} 
-                note={note} 
-                onUpdate={handleUpdateNote}
-                onDelete={handleDeleteNote}
-              />
-            ))}
-          </div>
+          <motion.div 
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"
+            layout
+          >
+            <AnimatePresence mode="popLayout">
+              {filteredNotes.map((note) => (
+                <motion.div
+                  key={note.id}
+                  layout
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <NoteCard 
+                    note={note} 
+                    onUpdate={handleUpdateNote}
+                    onDelete={handleDeleteNote}
+                  />
+                </motion.div>
+              ))}
+            </AnimatePresence>
+          </motion.div>
         )}
       </main>
     </div>

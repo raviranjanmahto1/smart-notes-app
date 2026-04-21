@@ -2,9 +2,16 @@ interface EmptyStateProps {
   onCreateClick: () => void;
 }
 
+import { motion } from "framer-motion";
+
 export function EmptyState({ onCreateClick }: EmptyStateProps) {
   return (
-    <div className="flex flex-col items-center justify-center py-12 text-center">
+    <motion.div 
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.3 }}
+      className="flex flex-col items-center justify-center py-12 text-center"
+    >
       <div className="bg-gray-100 dark:bg-gray-800 rounded-full p-4 mb-3">
         <svg
           className="w-8 h-8 text-gray-400 dark:text-gray-500"
@@ -33,6 +40,6 @@ export function EmptyState({ onCreateClick }: EmptyStateProps) {
       >
         Create your first note
       </button>
-    </div>
+    </motion.div>
   );
 }

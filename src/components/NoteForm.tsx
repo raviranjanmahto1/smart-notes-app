@@ -50,14 +50,23 @@ export function NoteForm({ initialNote, onSubmit, onCancel }: NoteFormProps) {
           disabled={isSubmitting}
           autoFocus
         />
-        <textarea
-          placeholder="Write your note here (Markdown supported)..."
-          value={newContent}
-          onChange={(e) => setNewContent(e.target.value)}
-          rows={3}
-          disabled={isSubmitting}
-          className="w-full px-3 py-1.5 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-transparent text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none disabled:opacity-50 font-mono"
-        />
+        <div>
+          <textarea
+            placeholder="Write your note here..."
+            value={newContent}
+            onChange={(e) => setNewContent(e.target.value)}
+            rows={4}
+            disabled={isSubmitting}
+            className="w-full px-3 py-1.5 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-transparent text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none disabled:opacity-50 font-mono"
+          />
+          <div className="text-[10px] text-gray-500 dark:text-gray-400 mt-1 flex gap-3 px-1">
+            <span><strong>**bold**</strong></span>
+            <span><em>*italic*</em></span>
+            <span>~~strike~~</span>
+            <span>`code`</span>
+            <span># Heading</span>
+          </div>
+        </div>
         <input
           type="text"
           placeholder="Tags (comma separated)"
