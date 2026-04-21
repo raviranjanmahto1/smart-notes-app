@@ -27,3 +27,57 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+/* React Quill Custom Overrides for consistent Tailwind styling */
+.ql-toolbar.ql-snow {
+  border-top-left-radius: 0.375rem;
+  border-top-right-radius: 0.375rem;
+  border-color: #d1d5db; /* border-gray-300 */
+  font-family: inherit;
+}
+
+.ql-container.ql-snow {
+  border-bottom-left-radius: 0.375rem;
+  border-bottom-right-radius: 0.375rem;
+  border-color: #d1d5db; /* border-gray-300 */
+  font-family: inherit;
+  min-height: 100px;
+}
+
+.ql-editor.ql-blank::before {
+  color: #9ca3af; /* text-gray-400 */
+  font-style: normal;
+  font-size: 0.875rem; /* text-sm */
+  left: 0.75rem; /* px-3 equivalent */
+  right: 0.75rem;
+}
+
+.ql-editor {
+  padding: 0.375rem 0.75rem; /* py-1.5 px-3 equivalent */
+  font-size: 0.875rem; /* text-sm */
+}
+
+/* Dark mode overrides */
+.dark .ql-toolbar.ql-snow {
+  border-color: #4b5563; /* border-gray-600 */
+}
+
+.dark .ql-toolbar.ql-snow .ql-stroke {
+  stroke: #d1d5db; /* text-gray-300 */
+}
+
+.dark .ql-toolbar.ql-snow .ql-fill {
+  fill: #d1d5db;
+}
+
+.dark .ql-toolbar.ql-snow .ql-picker {
+  color: #d1d5db;
+}
+
+.dark .ql-container.ql-snow {
+  border-color: #4b5563; /* border-gray-600 */
+}
+
+.dark .ql-editor.ql-blank::before {
+  color: #9ca3af; /* Matches text-gray-400 on dark */
+}

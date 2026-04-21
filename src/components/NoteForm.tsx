@@ -58,14 +58,14 @@ export function NoteForm({ initialNote, onSubmit, onCancel }: NoteFormProps) {
           disabled={isSubmitting}
           autoFocus
         />
-        <div className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-md mb-2">
+        <div className="text-gray-900 dark:text-white mb-2">
           <ReactQuill
             theme="snow"
             value={newContent}
             onChange={setNewContent}
             readOnly={isSubmitting}
             placeholder="Write your note here..."
-            className="prose dark:prose-invert max-w-none w-full"
+            className="prose dark:prose-invert max-w-none w-full bg-transparent"
           />
         </div>
         <input
