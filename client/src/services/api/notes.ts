@@ -1,6 +1,6 @@
 import { Note } from "@/types/note";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api/notes';
+const API_URL = process.env.NEXT_PUBLIC_API_URL || 'https://smart-notes-app-api.vercel.app/api/notes';
 
 export const notesApi = {
   /**
