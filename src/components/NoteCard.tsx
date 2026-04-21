@@ -62,7 +62,7 @@ export function NoteCard({ note, onUpdate, onDelete }: NoteCardProps) {
         </div>
       </div>
       
-      <div className="text-sm text-gray-600 dark:text-gray-300 flex-1 whitespace-pre-wrap break-words line-clamp-4 mb-3 prose prose-sm dark:prose-invert">
+      <div className="text-sm text-gray-600 dark:text-gray-300 flex-1 break-words line-clamp-4 mb-3 prose prose-sm dark:prose-invert max-w-none">
         <ReactMarkdown>{note.content}</ReactMarkdown>
       </div>
       
