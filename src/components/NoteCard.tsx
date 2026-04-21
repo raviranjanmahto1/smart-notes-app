@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Note } from "@/types/note";
 import { Pencil, Trash2 } from "lucide-react";
 import { NoteForm } from "./NoteForm";
-import "react-quill/dist/quill.snow.css";
+import "react-quill-new/dist/quill.snow.css";
 
 interface NoteCardProps {
   note: Note;
