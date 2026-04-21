@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Note } from "@/types/note";
 import { Pencil, Trash2 } from "lucide-react";
 import { NoteForm } from "./NoteForm";
-import ReactMarkdown from "react-markdown";
+import "react-quill/dist/quill.snow.css";
 
 interface NoteCardProps {
   note: Note;
@@ -62,9 +62,11 @@ export function NoteCard({ note, onUpdate, onDelete }: NoteCardProps) {
         </div>
       </div>
       
-      <div className="text-sm text-gray-600 dark:text-gray-300 flex-1 break-words line-clamp-4 mb-3 prose prose-sm dark:prose-invert max-w-none">
-        <ReactMarkdown>{note.content}</ReactMarkdown>
-      </div>
+      <div 
+        className="text-sm text-gray-600 dark:text-gray-300 flex-1 break-words line-clamp-4 mb-3 prose prose-sm dark:prose-invert max-w-none ql-editor"
+        style={{ padding: 0 }}
+        dangerouslySetInnerHTML={{ __html: note.content }}
+      />
       
       {note.tags && note.tags.length > 0 && (
         <div className="flex flex-wrap gap-1 mb-3">

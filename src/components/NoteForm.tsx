@@ -1,5 +1,12 @@
 import { useState } from "react";
 import { Note } from "@/types/note";
+import dynamic from "next/dynamic";
+import "react-quill/dist/quill.snow.css";
+
+const ReactQuill = dynamic(() => import("react-quill"), {
+  ssr: false,
+  loading: () => <div className="h-32 w-full animate-pulse bg-gray-200 dark:bg-gray-700 rounded-md"></div>,
+});
 
 interface NoteFormProps {
   initialNote?: Note;
@@ -15,7 +22,8 @@ export function NoteForm({ initialNote, onSubmit, onCancel }: NoteFormProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newTitle.trim() || !newContent.trim() || isSubmitting) return;
+    const plainContent = newContent.replace(/<[^>]+>/g, '').trim();
+    if (!newTitle.trim() || !plainContent || isSubmitting) return;
 
     const tagsArray = newTags
       .split(",")
@@ -50,22 +58,15 @@ export function NoteForm({ initialNote, onSubmit, onCancel }: NoteFormProps) {
           disabled={isSubmitting}
           autoFocus
         />
-        <div>
-          <textarea
-            placeholder="Write your note here..."
+        <div className="bg-white dark:bg-gray-800 text-gray-900 dark:text-white rounded-md mb-2">
+          <ReactQuill
+            theme="snow"
             value={newContent}
-            onChange={(e) => setNewContent(e.target.value)}
-            rows={4}
-            disabled={isSubmitting}
-            className="w-full px-3 py-1.5 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-transparent text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none disabled:opacity-50 font-mono"
+            onChange={setNewContent}
+            readOnly={isSubmitting}
+            placeholder="Write your note here..."
+            className="prose dark:prose-invert max-w-none w-full"
           />
-          <div className="text-[10px] text-gray-500 dark:text-gray-400 mt-1 flex gap-3 px-1">
-            <span><strong>**bold**</strong></span>
-            <span><em>*italic*</em></span>
-            <span>~~strike~~</span>
-            <span>`code`</span>
-            <span># Heading</span>
-          </div>
         </div>
         <input
           type="text"
@@ -86,7 +87,7 @@ export function NoteForm({ initialNote, onSubmit, onCancel }: NoteFormProps) {
           </button>
           <button
             type="submit"
-            disabled={!newTitle.trim() || !newContent.trim() || isSubmitting}
+            disabled={!newTitle.trim() || !newContent.replace(/<[^>]+>/g, '').trim() || isSubmitting}
             className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 disabled:cursor-not-allowed text-white px-3 py-1.5 text-sm rounded-md font-medium transition-colors"
           >
             {isSubmitting ? "Saving..." : "Save"}
